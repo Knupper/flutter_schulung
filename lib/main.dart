@@ -27,6 +27,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// Task 2
+// ColorfulContainer gets a new size value
+// Column should be filled with ColorfulContainers
+
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
