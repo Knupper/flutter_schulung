@@ -12,8 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      themeMode: ThemeMode.light,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
@@ -42,7 +43,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Flex(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         direction: Axis.vertical,
         children: [
           const Row(
@@ -63,15 +64,46 @@ class MyHomePage extends StatelessWidget {
               ),
             ],
           ),
-          const ColorfulContainer.red(),
-          const ColorfulContainer.yellow(),
-          const ColorfulContainer.green(),
+          ElevatedButton(
+            onPressed: () => debugPrint('outline pressed'),
+            child: const Text('Elevated Button'),
+          ),
+          OutlinedButton(
+            onPressed: () => debugPrint('outline pressed'),
+            child: const Text('Outline Button'),
+          ),
+          TextButton(
+            onPressed: () => debugPrint('outline pressed'),
+            child: const Text('Text Button'),
+          ),
+          ElevatedButton.icon(
+            onPressed: () => debugPrint('outline pressed'),
+            icon: const Icon(Icons.add),
+            label: const Text('label'),
+          ),
+          OutlinedButton.icon(
+            onPressed: () => debugPrint('outline pressed'),
+            icon: const Icon(Icons.add),
+            label: const Text('label'),
+          ),
+          TextButton.icon(
+            onPressed: () => debugPrint('outline pressed'),
+            icon: const Icon(Icons.add),
+            label: const Text('label'),
+          ),
+          IconButton(
+            onPressed: () => debugPrint('iconButton'),
+            icon: const Icon(Icons.sledding),
+          ),
           Flexible(
-            child: Text(
-              'Hello World Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page Hello World Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page Hello World Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page',
-              style: Theme.of(context).textTheme.displayMedium,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            child: InkWell(
+              onTap: () => debugPrint('Text clicked'),
+              child: Text(
+                'Hello World Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page Hello World Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page Hello World Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page Flutter Demo Home Page',
+                style: Theme.of(context).textTheme.displayMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ],
@@ -84,22 +116,30 @@ class ColorfulContainer extends StatelessWidget {
   const ColorfulContainer({
     super.key,
     required this.color,
+    this.size = 200,
   });
 
-  const ColorfulContainer.red({super.key}) : color = Colors.red;
+  const ColorfulContainer.red({super.key, this.size = 200}) : color = Colors.red;
 
-  const ColorfulContainer.yellow({super.key}) : color = Colors.yellow;
+  const ColorfulContainer.yellow({super.key, this.size = 200}) : color = Colors.yellow;
 
-  const ColorfulContainer.green({super.key}) : color = Colors.green;
+  const ColorfulContainer.green({super.key, this.size = 200}) : color = Colors.green;
 
   final Color color;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: color,
-      height: 200,
-      width: 200,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
+      ),
+      height: size,
+      width: size,
     );
   }
 }
