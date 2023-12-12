@@ -17,7 +17,7 @@ class AdvicePageProvider extends StatelessWidget {
         useCase: AdviceUseCase(
           repository: RepositoryProvider.of<AdviceRepository>(context),
         ),
-      )..fetch(),
+      )..fetchRandom(),
       child: const AdvicePage(),
     );
   }
@@ -28,33 +28,44 @@ class AdvicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AdviceCubit, AdviceState>(
-      builder: (context, state) {
-        switch (state) {
-          case AdviceStateInitial _:
-          case AdviceStateLoading _:
-            return const LoadingSpinner();
-          case AdviceStateError _:
-            return const ErrorCard();
-          case AdviceStateLoaded loaded:
-            return Center(
-              child: Column(
-                children: [
-                  AdviceCard(
-                    advice: loaded.advice,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  OutlinedButton(
-                    onPressed: () => context.read<AdviceCubit>().fetch(),
-                    child: const Text('example'),
-                  ),
-                ],
-              ),
-            );
-        }
-      },
+    return Center(
+      child: Column(
+        children: [
+          SizedBox(
+            width: 400,
+            height: 400,
+            child: BlocBuilder<AdviceCubit, AdviceState>(
+              builder: (context, state) {
+                switch (state) {
+                  case AdviceStateInitial _:
+                  case AdviceStateLoading _:
+                    return const LoadingSpinner();
+                  case AdviceStateError _:
+                    return const ErrorCard();
+                  case AdviceStateLoaded loaded:
+                    return AdviceCard(
+                      advice: loaded.advice,
+                    );
+                }
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          OutlinedButton(
+            onPressed: () => context.read<AdviceCubit>().fetchRandom(),
+            child: const Text('Random Advice'),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          OutlinedButton(
+            onPressed: () => context.read<AdviceCubit>().fetch(id: '33'),
+            child: const Text('Specific Advice 33'),
+          ),
+        ],
+      ),
     );
   }
 }

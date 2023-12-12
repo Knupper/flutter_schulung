@@ -10,11 +10,17 @@ class MockAdviceRepository implements AdviceRepository {
   );
 
   @override
-  Future<AdviceEntity> getAdvice() async {
+  Future<AdviceEntity> getAdvice({int? id}) async {
     await Future.delayed(const Duration(seconds: 2));
 
-    final random = Random().nextInt(advices.length);
+    int selectedId;
 
-    return advices[random];
+    if (id == null) {
+      selectedId = Random().nextInt(advices.length);
+    } else {
+      selectedId = id;
+    }
+
+    return advices[selectedId];
   }
 }
