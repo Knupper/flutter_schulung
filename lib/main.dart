@@ -7,7 +7,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,10 +26,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// Task 2
-// ColorfulContainer gets a new size value
-// Column should be filled with ColorfulContainers
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -112,7 +107,7 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class ColorfulContainer extends StatelessWidget {
+class ColorfulContainer extends StatefulWidget {
   const ColorfulContainer({
     super.key,
     required this.color,
@@ -129,17 +124,46 @@ class ColorfulContainer extends StatelessWidget {
   final double size;
 
   @override
+  State<ColorfulContainer> createState() => _ColorfulContainerState();
+}
+
+class _ColorfulContainerState extends State<ColorfulContainer> {
+  late double _size;
+
+  @override
+  void initState() {
+    super.initState();
+    _size = widget.size;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(10),
-          bottomRight: Radius.circular(10),
+    return InkWell(
+      onTap: () {
+        final tmpSize = _size == widget.size ? widget.size * 2 : widget.size;
+        setState(() {
+          _size = tmpSize;
+          // ...
+        });
+        debugPrint('ColorfulContainer tapped _size : $_size');
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          color: widget.color,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
+          ),
         ),
+        height: _size,
+        width: _size,
       ),
-      height: size,
-      width: size,
     );
   }
 }
+
+// TASK 3
+// Create a own class for a CheckBox widget
+// The widget should have a label and a checkbox
+// https://api.flutter.dev/flutter/material/Checkbox-class.html
