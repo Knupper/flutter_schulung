@@ -158,6 +158,7 @@ class _ColorfulContainerState extends State<ColorfulContainer> {
         ),
         height: _size,
         width: _size,
+        child: const CustomCheckbox(),
       ),
     );
   }
@@ -167,3 +168,41 @@ class _ColorfulContainerState extends State<ColorfulContainer> {
 // Create a own class for a CheckBox widget
 // The widget should have a label and a checkbox
 // https://api.flutter.dev/flutter/material/Checkbox-class.html
+
+class CustomCheckbox extends StatefulWidget {
+  const CustomCheckbox({super.key, this.initialValue = false});
+
+  final bool initialValue;
+
+  @override
+  State<CustomCheckbox> createState() => _CustomCheckboxState();
+}
+
+class _CustomCheckboxState extends State<CustomCheckbox> {
+  late bool _value;
+
+  @override
+  void initState() {
+    _value = widget.initialValue;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Checkbox(
+          value: _value,
+          onChanged: (_) => _onChanged(),
+        ),
+        const Text('Label'),
+      ],
+    );
+  }
+
+  void _onChanged() {
+    setState(() {
+      _value = !_value;
+    });
+  }
+}
