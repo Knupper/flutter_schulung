@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_schulung/clean_architecture/domain/use_cases/advice_use_case.dart';
 
@@ -16,7 +17,7 @@ class AdviceCubit extends Cubit<AdviceState> {
     either.fold(
       (left) => emit(const AdviceStateError(message: 'Translate Error')),
       (right) => emit(
-        AdviceStateLoaded(advice: right.advice),
+        AdviceStateLoaded(advice: right.advice, id: right.id),
       ),
     );
   }
@@ -29,7 +30,7 @@ class AdviceCubit extends Cubit<AdviceState> {
     either.fold(
       (left) => emit(AdviceStateError(message: 'Translate Error: $left')),
       (right) => emit(
-        AdviceStateLoaded(advice: right.advice),
+        AdviceStateLoaded(advice: right.advice, id: right.id),
       ),
     );
   }
