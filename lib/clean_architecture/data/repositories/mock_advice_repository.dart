@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:either_dart/either.dart';
+import 'package:flutter_schulung/clean_architecture/app/failure.dart';
 import 'package:flutter_schulung/clean_architecture/domain/entities/advice_entity.dart';
 import 'package:flutter_schulung/clean_architecture/domain/repositories/advice_repository.dart';
 
@@ -10,7 +12,7 @@ class MockAdviceRepository implements AdviceRepository {
   );
 
   @override
-  Future<AdviceEntity> getAdvice({int? id}) async {
+  Future<Either<Failure, AdviceEntity>> getAdvice({int? id}) async {
     await Future.delayed(const Duration(seconds: 2));
 
     int selectedId;
@@ -21,6 +23,10 @@ class MockAdviceRepository implements AdviceRepository {
       selectedId = id;
     }
 
-    return advices[selectedId];
+    if (selectedId > advices.length) {
+      return Left(OutOfRangeFailure());
+    }
+
+    return Right(advices[selectedId]);
   }
 }

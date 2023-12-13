@@ -11,15 +11,26 @@ class AdviceCubit extends Cubit<AdviceState> {
   Future<void> fetchRandom() async {
     emit(const AdviceStateLoading());
 
-    final entity = await useCase.getRandomAdvice();
+    final either = await useCase.getRandomAdvice();
 
-    emit(AdviceStateLoaded(advice: entity.advice));
+    either.fold(
+      (left) => emit(const AdviceStateError(message: 'Translate Error')),
+      (right) => emit(
+        AdviceStateLoaded(advice: right.advice),
+      ),
+    );
   }
 
   Future<void> fetch({required String id}) async {
     emit(const AdviceStateLoading());
 
-    final entity = await useCase.getSpecificAdvice(id: id);
-    emit(AdviceStateLoaded(advice: entity.advice));
+    final either = await useCase.getSpecificAdvice(id: id);
+
+    either.fold(
+      (left) => emit(AdviceStateError(message: 'Translate Error: $left')),
+      (right) => emit(
+        AdviceStateLoaded(advice: right.advice),
+      ),
+    );
   }
 }

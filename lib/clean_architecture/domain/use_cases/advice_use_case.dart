@@ -1,3 +1,5 @@
+import 'package:either_dart/either.dart';
+import 'package:flutter_schulung/clean_architecture/app/failure.dart';
 import 'package:flutter_schulung/clean_architecture/domain/entities/advice_entity.dart';
 import 'package:flutter_schulung/clean_architecture/domain/repositories/advice_repository.dart';
 
@@ -6,13 +8,13 @@ class AdviceUseCase {
 
   final AdviceRepository repository;
 
-  Future<AdviceEntity> getRandomAdvice() async {
+  Future<Either<Failure, AdviceEntity>> getRandomAdvice() async {
     final result = await repository.getAdvice();
 
     return result;
   }
 
-  Future<AdviceEntity> getSpecificAdvice({required String id}) async {
+  Future<Either<Failure, AdviceEntity>> getSpecificAdvice({required String id}) async {
     final parsedInt = int.tryParse(id);
     if (parsedInt == null) {
       throw Exception('Only numbers are allowed');

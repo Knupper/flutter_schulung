@@ -40,8 +40,8 @@ class AdvicePage extends StatelessWidget {
                   case AdviceStateInitial _:
                   case AdviceStateLoading _:
                     return const LoadingSpinner();
-                  case AdviceStateError _:
-                    return const ErrorCard();
+                  case AdviceStateError error:
+                    return ErrorCard(message: error.message);
                   case AdviceStateLoaded loaded:
                     return AdviceCard(
                       advice: loaded.advice,
