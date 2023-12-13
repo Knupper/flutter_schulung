@@ -21,7 +21,7 @@ class AdviceDataSourceRestApi implements AdviceDataSource {
       );
 
       if (result.statusCode != 200) {
-        throw Exception('Error while fetching advice');
+        throw Exception('Error statusCode is not 200');
       }
 
       return AdviceDto.fromJson(jsonDecode(result.body));

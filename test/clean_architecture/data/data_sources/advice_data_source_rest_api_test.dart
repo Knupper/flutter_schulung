@@ -11,6 +11,8 @@ class MockClient extends Mock implements Client {}
 
 void main() {
   group('AdviceDataSourceRestApi', () {
+    final mockClient = MockClient();
+
     setUpAll(() {
       debugPrint('setUpAll');
       registerFallbackValue(Uri());
@@ -22,8 +24,6 @@ void main() {
 
     group('should return an AdviceDto', () {
       test('if no id parameter was set', () async {
-        final mockClient = MockClient();
-
         when(() => mockClient.get(Uri.parse('https://api.flutter-community.com/api/v1/advice/'),
             headers: any(named: 'headers'))).thenAnswer(
           (_) async => Future.value(
@@ -41,18 +41,43 @@ void main() {
         expect(result, isA<AdviceDto>());
       });
 
-      test('if id parameter was set', () {
-        debugPrint('should return data');
-      }, skip: true);
+      test('if id parameter was set', () async {
+        final dataSourceUnderTest = AdviceDataSourceRestApi(client: mockClient);
+
+        when(() => mockClient.get(Uri.parse('https://api.flutter-community.com/api/v1/advice/42'),
+            headers: any(named: 'headers'))).thenAnswer(
+          (_) async => Future.value(
+            Response(
+              '{"advice": "test", "advice_id": 42}',
+              200,
+            ),
+          ),
+        );
+        final result = await dataSourceUnderTest.getAdvice(id: '42');
+
+        expect(result, isA<AdviceDto>());
+        expect(result.id, 42);
+      });
     });
 
     group('should throw an Exception', () {
-      test('if statusCode was not 200', () {
-        debugPrint('should throw an Exception');
+      test('if statusCode was not 200', () async {
+        final dataSourceUnderTest = AdviceDataSourceRestApi(client: mockClient);
+
+        when(() => mockClient.get(Uri.parse('https://api.flutter-community.com/api/v1/advice/'),
+            headers: any(named: 'headers'))).thenAnswer(
+          (_) async => Future.value(
+            Response(
+              '{"advice": "test", "advice_id": 1}',
+              402,
+            ),
+          ),
+        );
+
+        expect(() => dataSourceUnderTest.getAdvice(), throwsA(isA<Exception>()));
       });
 
       test('if client throws exception', () {
-        final mockClient = MockClient();
         final dataSourceUnderTest = AdviceDataSourceRestApi(client: mockClient);
 
         when(() => mockClient.get(Uri.parse('https://api.flutter-community.com/api/v1/advice/'),
@@ -67,6 +92,7 @@ void main() {
     });
 
     tearDown(() {
+      reset(mockClient);
       debugPrint('tearDown');
     });
 
