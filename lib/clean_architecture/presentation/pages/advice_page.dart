@@ -54,6 +54,7 @@ class AdvicePage extends StatelessWidget {
             height: 16,
           ),
           OutlinedButton(
+            key: const Key('random_advice'),
             onPressed: () => context.read<AdviceCubit>().fetchRandom(),
             child: const Text('Random Advice'),
           ),
@@ -61,6 +62,7 @@ class AdvicePage extends StatelessWidget {
             height: 16,
           ),
           OutlinedButton(
+            key: const Key('specific_advice'),
             onPressed: () => context.read<AdviceCubit>().fetch(id: '33'),
             child: const Text('Specific Advice 33'),
           ),
