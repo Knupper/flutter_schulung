@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,7 +58,7 @@ class AdvicePage extends StatelessWidget {
           OutlinedButton(
             key: const Key('random_advice'),
             onPressed: () => context.read<AdviceCubit>().fetchRandom(),
-            child: const Text('Random Advice'),
+            child: Text('button_random_advice'.tr()),
           ),
           const SizedBox(
             height: 16,
@@ -122,7 +123,7 @@ class _AdviceFormState extends State<_AdviceForm> {
                 _idController.text = '';
               }
             },
-            child: const Text('Get id'),
+            child: Text('button_specific_advice'.tr()),
           ),
         ],
       ),
