@@ -89,6 +89,22 @@ class _AdviceFormState extends State<_AdviceForm> {
       key: _formKey,
       child: Column(
         children: [
+          SizedBox(
+            width: 400,
+            child: Builder(
+              builder: (context) {
+                final size = MediaQuery.of(context).size;
+
+                if (size.width < 600) {
+                  return Text('LayoutBuilder: small  ${size.width}');
+                } else if (size.width < 800) {
+                  return Text('LayoutBuilder: medium  ${size.width}');
+                } else {
+                  return Text('LayoutBuilder: large  ${size.width}');
+                }
+              },
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
