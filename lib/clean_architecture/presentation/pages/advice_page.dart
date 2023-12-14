@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_schulung/clean_architecture/app/error_card.dart';
 import 'package:flutter_schulung/clean_architecture/app/loading_spinner.dart';
@@ -61,10 +62,67 @@ class AdvicePage extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
+          const _AdviceForm(),
+        ],
+      ),
+    );
+  }
+}
+
+class _AdviceForm extends StatefulWidget {
+  const _AdviceForm({
+    super.key,
+  });
+
+  @override
+  State<_AdviceForm> createState() => _AdviceFormState();
+}
+
+class _AdviceFormState extends State<_AdviceForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _idController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              controller: _idController,
+              decoration: const InputDecoration(
+                label: Text('Advice Id'),
+                hintText: 'Enter an advice id (only numbers are allowed)',
+              ),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(3),
+              ],
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter an advice id';
+                }
+                return null;
+              },
+              onChanged: (value) {
+                debugPrint('value: $value');
+              },
+            ),
+          ),
           OutlinedButton(
             key: const Key('specific_advice'),
-            onPressed: () => context.read<AdviceCubit>().fetch(id: '33'),
-            child: const Text('Specific Advice 33'),
+            onPressed: () {
+              final isValid = _formKey.currentState?.validate();
+              if (isValid == true) {
+                final id = _idController.text;
+                context.read<AdviceCubit>().fetch(id: id);
+                _idController.text = '';
+              }
+            },
+            child: const Text('Get id'),
           ),
         ],
       ),
