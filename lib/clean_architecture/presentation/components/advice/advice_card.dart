@@ -12,9 +12,15 @@ class AdviceCard extends StatelessWidget {
       height: 400,
       color: Colors.green,
       child: Center(
-        child: Text(
-          '"$advice"',
-          style: Theme.of(context).textTheme.displayMedium,
+        child: Column(
+          children: [
+            Flexible(
+              child: Text(
+                '"$advice"',
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+            ),
+          ],
         ),
       ),
     );
