@@ -1,4 +1,4 @@
 {
   "button_random_advice": "Lade zufälligen Rat",
-  "button_specific_advice": "Lade eingegeben Rat"
+  "button_specific_advice": "Lade Rat {id}"
 }

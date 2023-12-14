@@ -109,6 +109,9 @@ class _AdviceFormState extends State<_AdviceForm> {
                 return null;
               },
               onChanged: (value) {
+                setState(() {
+                  // ;
+                });
                 debugPrint('value: $value');
               },
             ),
@@ -123,7 +126,7 @@ class _AdviceFormState extends State<_AdviceForm> {
                 _idController.text = '';
               }
             },
-            child: Text('button_specific_advice'.tr()),
+            child: Text('button_specific_advice'.tr(namedArgs: {'id': _idController.text})),
           ),
         ],
       ),
