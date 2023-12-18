@@ -15,7 +15,9 @@ void main() {
     return MaterialApp(
       home: BlocProvider<AdviceCubit>(
         create: (context) => cubit,
-        child: const AdvicePage(),
+        child: const Scaffold(
+          body: AdvicePage(),
+        ),
       ),
     );
   }

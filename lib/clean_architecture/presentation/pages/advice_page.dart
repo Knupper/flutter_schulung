@@ -33,23 +33,25 @@ class AdvicePage extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          SizedBox(
-            width: 400,
-            height: 400,
-            child: BlocBuilder<AdviceCubit, AdviceState>(
-              builder: (context, state) {
-                switch (state) {
-                  case AdviceStateInitial _:
-                  case AdviceStateLoading _:
-                    return const LoadingSpinner();
-                  case AdviceStateError error:
-                    return ErrorCard(message: error.message);
-                  case AdviceStateLoaded loaded:
-                    return AdviceCard(
-                      advice: loaded.advice,
-                    );
-                }
-              },
+          Flexible(
+            child: SizedBox(
+              width: 400,
+              height: 400,
+              child: BlocBuilder<AdviceCubit, AdviceState>(
+                builder: (context, state) {
+                  switch (state) {
+                    case AdviceStateInitial _:
+                    case AdviceStateLoading _:
+                      return const LoadingSpinner();
+                    case AdviceStateError error:
+                      return ErrorCard(message: error.message);
+                    case AdviceStateLoaded loaded:
+                      return AdviceCard(
+                        advice: loaded.advice,
+                      );
+                  }
+                },
+              ),
             ),
           ),
           const SizedBox(
